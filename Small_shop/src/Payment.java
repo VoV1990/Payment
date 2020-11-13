@@ -32,8 +32,5 @@ public class Payment {
             products.addAll(Arrays.asList(product));
         }
 
-        private void deleteProduct() {
-
-        }
     }
 }
