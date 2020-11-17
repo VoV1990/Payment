@@ -9,17 +9,6 @@ public class Product {
         this.cost = cost;
     }
 
-
-    public static double[] getPrices(ListOfGoods listOfGoods) {
-        if (listOfGoods.equals(ListOfGoods.FOOD))
-            return new double[] {0.5, 0.7, 2.5, 2.3, 2.0, 1.5};
-        else if(listOfGoods.equals(ListOfGoods.APPLIANCES))
-            return new double[] {100, 105, 107, 90, 50.5, 91};
-        else if(listOfGoods.equals(ListOfGoods.ELECTRONICS))
-        return new double[] {150, 140, 92, 170, 108, 112};
-        return new double[] {};
-    }
-
     public String getName() {
         return name;
     }

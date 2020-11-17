@@ -8,11 +8,9 @@ public class Shop {
     List<Product> productsList = new ArrayList<>();
     Payment payment = new Payment();
 
-    public void chooseTypeOfGoods() {
+    public void chooseOption() {
         boolean stop = false;
         int option = 0;
-        double[] price;
-        String[] goods;
         do{
             System.out.println("Please select the product type:");
             System.out.println("1. FOOD.");
@@ -26,23 +24,39 @@ public class Shop {
             if(option >= 1 && option <= 3) stop = true;
             else System.out.println("Please try again");
         } while (!stop);
+        chooseTypeOfGoods(option);
+    }
+    
+    private void chooseTypeOfGoods(int option) {
+        double[] price;
+        String[] goods;
         switch (option) {
             case 1 -> {
                 goods = Product.ListOfGoods.FOOD.getListOfGoods();
-                price = Product.getPrices(Product.ListOfGoods.FOOD);
+                price = getPrices(Product.ListOfGoods.FOOD);
                 createListOfGoods(goods, price);
             }
             case 2 -> {
                 goods = Product.ListOfGoods.APPLIANCES.getListOfGoods();
-                price = Product.getPrices(Product.ListOfGoods.APPLIANCES);
+                price = getPrices(Product.ListOfGoods.APPLIANCES);
                 createListOfGoods(goods, price);
             }
             case 3 -> {
                 goods = Product.ListOfGoods.ELECTRONICS.getListOfGoods();
-                price = Product.getPrices(Product.ListOfGoods.ELECTRONICS);
+                price = getPrices(Product.ListOfGoods.ELECTRONICS);
                 createListOfGoods(goods, price);
             }
         }
+    }
+
+    private double[] getPrices(Product.ListOfGoods listOfGoods) {
+        if (listOfGoods.equals(Product.ListOfGoods.FOOD))
+            return new double[] {0.5, 0.7, 2.5, 2.3, 2.0, 1.5};
+        else if(listOfGoods.equals(Product.ListOfGoods.APPLIANCES))
+            return new double[] {100, 105, 107, 90, 50.5, 91};
+        else if(listOfGoods.equals(Product.ListOfGoods.ELECTRONICS))
+            return new double[] {150, 140, 92, 170, 108, 112};
+        return new double[] {};
     }
 
     private void createListOfGoods(String[] goods, double[]price) {
@@ -54,25 +68,21 @@ public class Shop {
     public void chooseGoods() {
         for (Product product : productsList) System.out.println(product);
         boolean stop = false;
-        List<Integer> options = new ArrayList<>();
         int option;
         do{
             System.out.println("Please select the product id, if you are finished " +
                     "and want to go to the shopping cart press 0:");
             try {
                 while ((option = Integer.parseInt(reader.readLine())) != 0) {
-                    options.add(option);
+                    for (Product product : productsList) {
+                        if(product.getId() == (option)) {
+                            payment.doShopping(product);
+                        }
+                    }
                 }
                 stop = true;
             } catch (Exception e) {
                 System.out.println("Invalid data.");
-            }
-            for (Product product : productsList) {
-                for (Integer i : options) {
-                    if(product.getId() == (i)) {
-                        payment.doShopping(product);
-                    }
-                }
             }
         } while (!stop);
         payment.showCart();
